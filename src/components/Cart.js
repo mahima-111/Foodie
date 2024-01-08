@@ -1,14 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, removeItem, clearCart } from "../utils/cartSlice";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useEffect, useState } from "react";
 
 const Cart=()=>{
     const cartItems=useSelector((store)=> store.cart.items);
     const cartPrice=useSelector((store)=> store.cart.cartTotalPrice);
     const cartQuantity=useSelector((store)=> store.cart.cartTotalQuantity);
 
+    const [delivery,setDelivery]=useState(0);
+    const [taxes,setTaxes]=useState(0);
+
     const dispatchFunc=useDispatch();
-    
+    useEffect(()=>{
+        cartPrice>1000?setDelivery(0):setDelivery(70);
+        cartPrice>0?setTaxes(cartPrice/10):setTaxes(0);
+    },[cartPrice]);
     const clearHandler=()=>{
         dispatchFunc(clearCart());
     };
@@ -18,7 +25,7 @@ const Cart=()=>{
     const removeButtonHandler=(item)=>{
         dispatchFunc(removeItem(item));
     };
-
+    
     return <div className="flex justify-center">
         <div className="text-center flex w-[80vw] justify-between">
         <div className="mt-8 w-[53vw]">
@@ -54,9 +61,9 @@ const Cart=()=>{
         </div>
         <div className=" border-2 border-orange-400 rounded-md py-4 px-8 mt-16 w-[25vw]">
             <h1 className="text-2xl font-bold pt-4 pb-8">Price :<span className="ml-4">₹{cartPrice}</span></h1>
-            <h1 className="text-xl font-bold">Delivery Charge : <span className="ml-4">₹ {delivery=cartPrice>1000 || cartPrice===0?0:100}</span></h1>
+            <h1 className="text-xl font-bold">Delivery Charge : <span className="ml-4">₹ {delivery}</span></h1>
             <h1 className="text-lg font-bold pt-4 pb-8">(Free delivery on orders above 1000)</h1>
-            <h1 className="text-2xl font-bold pt-4 pb-8">Taxes (10%) :  <span className="ml-4">₹{taxes=cartPrice/10}</span></h1>
+            <h1 className="text-2xl font-bold pt-4 pb-8">Taxes (10%) :  <span className="ml-4">₹{taxes}</span></h1>
             <h1 className="text-2xl font-bold pt-4 pb-8">Total Price :  <span className="ml-4">₹{cartPrice+delivery+taxes}</span></h1>
             <button type="button" className="bg-orange-400 px-6 py-2 text-2xl font-bold rounded-md mb-16">Proceed to Payment <ArrowForwardIcon/> </button>
         </div>

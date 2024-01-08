@@ -5,7 +5,6 @@ import Offers from "./Offers";
 import Card from "./Card";
 import useData from "../utils/useData";
 import Carousel from "./Carousel";
-import TopRes from "./TopRes";
 
 const Body=()=>{
     const [listOfRes,setListOfRes]=useState([]);

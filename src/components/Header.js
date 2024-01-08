@@ -27,7 +27,7 @@ const Header= ()=>{
             <button className="hover:text-orange-400" onClick={()=>{
                 (auth ==='Login')?setAuth('Logout'):setAuth('Login');
             }} >{auth}</button>
-            <li className="hover:text-orange-400"><Link to="/cart"><ShoppingCartIcon/>({cartQty})</Link></li>
+            <li className="hover:text-orange-400"><Link to="/cart"><ShoppingCartIcon/><span>({cartQty})</span></Link></li>
         </ul>
         </div>
     </nav>
